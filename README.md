@@ -35,12 +35,12 @@ python remwm.py input.mp4 output.mp4
 
 **Or install manually with pip:**
 ```bash
-# Create environment
-conda create -n py312aiwatermark python=3.11
+# Create environment (Python 3.10 matches Google Colab)
+conda create -n py312aiwatermark python=3.10
 conda activate py312aiwatermark
 
-# Install with CUDA 12.1 support (recommended)
-pip install -r requirements-cu121.txt
+# Install with CUDA 12.2 support (recommended, matches Colab)
+pip install -r requirements-cu122.txt
 
 # Or CPU-only version
 pip install -r requirements-cpu.txt
@@ -148,7 +148,7 @@ Watch the complete tutorial:
 
 ## Requirements
 
-- **Python**: 3.11 or 3.12
+- **Python**: 3.10 (recommended, matches Colab), 3.11, or 3.12
 - **RAM**: 16GB recommended
 - **VRAM**: 6GB+ recommended (GPU)
 - **FFmpeg**: For video audio merging

@@ -185,7 +185,7 @@ docker build -t sora2-watermark-remover:latest .
 Edit `docker-compose.yml` and replace:
 
 ```yaml
-image: quay.io/jupyter/pytorch-notebook:cuda12-python-3.11
+image: quay.io/jupyter/pytorch-notebook:cuda12-python-3.10
 ```
 
 with:
@@ -383,28 +383,29 @@ sudo apt-get update && sudo apt-get install -y ffmpeg
 ERROR: Cannot install huggingface_hub<0.20.0 and iopaint==1.4.4+
 ```
 
-**Cause**: Version mismatch - newer iopaint requires huggingface_hub>=0.20.0
+**Cause**: Version mismatch - diffusers needs functions not available in older huggingface_hub
 
 **Solution**: This is already fixed in requirements files:
 
 ```python
-# Requirements use compatible versions
-huggingface_hub==0.20.3
-iopaint==1.3.3  # Latest stable 1.3.x
+# Requirements use compatible versions (matching Colab)
+huggingface_hub==0.23.0
+iopaint==1.6.0  # Latest stable version
+diffusers==0.27.0
 ```
 
 If you encounter this error:
 
 ```bash
 # Use the provided requirements files
-pip install -r requirements-cu121.txt
+pip install -r requirements-cu122.txt
 ```
 
 Or use the provided requirements files:
 
 ```bash
-# CUDA 12.1 (recommended)
-pip install -r requirements-cu121.txt
+# CUDA 12.2 (recommended, matches Colab)
+pip install -r requirements-cu122.txt
 
 # CPU only
 pip install -r requirements-cpu.txt

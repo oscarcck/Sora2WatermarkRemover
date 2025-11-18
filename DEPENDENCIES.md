@@ -5,17 +5,18 @@ This document explains the dependency versions used in Sora2WatermarkRemover and
 ## Version Selection Criteria
 
 All versions are pinned for:
-- **CUDA 12 compatibility** (tested with 12.1-12.6)
-- **Python 3.11 compatibility**
+- **CUDA 12.2 compatibility** (matching Google Colab environment)
+- **Python 3.10 compatibility** (matching Google Colab environment)
 - **Stability** (avoiding breaking changes)
 - **Security** (patched versions)
+- **Colab parity** (same versions as Google Colab for consistency)
 
 ## Requirements Files
 
 | File | Use Case | Installation |
 |------|----------|-------------|
-| `requirements.txt` | Standard CUDA 12.1 | `pip install -r requirements.txt` |
-| `requirements-cu121.txt` | Full CUDA 12.1 with all extras | `pip install -r requirements-cu121.txt` |
+| `requirements.txt` | Standard CUDA 12.2 | `pip install -r requirements.txt` |
+| `requirements-cu122.txt` | Full CUDA 12.2 with all extras (Colab-compatible) | `pip install -r requirements-cu122.txt` |
 | `requirements-cpu.txt` | CPU-only (no GPU) | `pip install -r requirements-cpu.txt` |
 
 ## Core Dependencies
@@ -23,19 +24,19 @@ All versions are pinned for:
 ### PyTorch Ecosystem
 
 ```
-torch==2.1.2+cu121
-torchvision==0.16.2+cu121
-torchaudio==2.1.2+cu121
+torch==2.1.2+cu122
+torchvision==0.16.2+cu122
+torchaudio==2.1.2+cu122
 ```
 
 **Why these versions:**
 - PyTorch 2.1.2 is stable and well-tested
-- `+cu121` suffix indicates CUDA 12.1 builds
-- Compatible with CUDA 12.1, 12.2, 12.3, 12.4, 12.5, 12.6
-- Python 3.11 fully supported
+- `+cu122` suffix indicates CUDA 12.2 builds (matching Google Colab)
+- Compatible with CUDA 12.2 and higher
+- Python 3.10 fully supported
 - Good performance on modern GPUs (RTX 30/40 series)
 
-**Installation note:** Requires `--extra-index-url https://download.pytorch.org/whl/cu121`
+**Installation note:** Requires `--extra-index-url https://download.pytorch.org/whl/cu122`
 
 ### HuggingFace Libraries
 
@@ -58,34 +59,34 @@ safetensors==0.4.1
 
 ```
 opencv-python-headless==4.8.1.78
-Pillow==10.1.0
+Pillow==10.4.0
 scikit-image==0.22.0
 ```
 
 **Why these versions:**
 - `opencv-python-headless==4.8.1.78`: Latest stable, no GUI dependencies
-- `Pillow==10.1.0`: Python 3.11 compatible, security fixes
+- `Pillow==10.4.0`: Python 3.10 compatible, matches Colab, has is_directory fix
 - `scikit-image==0.22.0`: Required by iopaint, stable version
 
 ### Inpainting
 
 ```
-iopaint==1.3.3
+iopaint==1.6.0
 diffusers==0.27.0
 accelerate==0.25.0
 ```
 
 **Why these versions:**
-- `iopaint==1.3.3`: Latest stable 1.3.x with LaMa support
+- `iopaint==1.6.0`: Latest stable release (matching Google Colab usage)
 - `diffusers==0.27.0`: Stable, compatible with huggingface_hub 0.23.0
 - `accelerate==0.25.0`: GPU optimization, required by iopaint
 
 **Version history:**
 - iopaint 1.0.x-1.2.x: Required huggingface_hub<0.20.0 (deprecated cached_download)
 - iopaint 1.3.x (1.3.0-1.3.3): Works with huggingface_hub>=0.20.0
-- diffusers 0.24.0: Needs split_torch_state_dict_into_shards (not in hub 0.20.3)
+- iopaint 1.4.x-1.6.x: Latest versions with improved features
 - diffusers 0.27.0: Works properly with huggingface_hub 0.23.0
-- **Current combination is fully compatible** with all required APIs
+- **Current combination is fully compatible** with all required APIs and matches Colab environment
 
 ### CLI and Utilities
 
@@ -145,21 +146,21 @@ psutil==5.9.6
 
 | CUDA Version | PyTorch Build | Status | Notes |
 |--------------|---------------|--------|-------|
-| 12.1 | +cu121 | ✅ Recommended | Most tested |
-| 12.2 | +cu121 | ✅ Compatible | Use cu121 builds |
-| 12.3 | +cu121 | ✅ Compatible | Use cu121 builds |
-| 12.4 | +cu121 | ✅ Compatible | Use cu121 builds |
-| 12.5 | +cu121 | ✅ Compatible | Use cu121 builds |
-| 12.6 | +cu121 | ✅ Compatible | Use cu121 builds |
+| 12.2 | +cu122 | ✅ Recommended | Matches Google Colab |
+| 12.3 | +cu122 | ✅ Compatible | Use cu122 builds |
+| 12.4 | +cu122 | ✅ Compatible | Use cu122 builds |
+| 12.5 | +cu122 | ✅ Compatible | Use cu122 builds |
+| 12.6 | +cu122 | ✅ Compatible | Use cu122 builds |
+| 12.1 | +cu121 | ✅ Compatible | Use cu121 builds (older) |
 | 11.8 | +cu118 | ⚠️ Not recommended | Use CUDA 12 instead |
 
 ## Python Compatibility
 
 | Python Version | Status | Notes |
 |----------------|--------|-------|
-| 3.11 | ✅ Recommended | Fully tested |
+| 3.10 | ✅ Recommended | Fully tested, matches Google Colab |
+| 3.11 | ✅ Supported | Works but less tested |
 | 3.12 | ✅ Supported | Works but less tested |
-| 3.10 | ⚠️ Might work | Not officially tested |
 | 3.13+ | ❌ Not supported | PyTorch not ready |
 
 ## Known Issues and Workarounds
@@ -173,7 +174,7 @@ psutil==5.9.6
 **Solution:** Use compatible versions:
 - `huggingface_hub==0.23.0` (has all required functions)
 - `diffusers==0.27.0` (compatible with hub 0.23.0)
-- `iopaint==1.3.3` (works with hub 0.23.0)
+- `iopaint==1.6.0` (latest stable, works with hub 0.23.0)
 
 **Function availability:**
 - `cached_download()`: Removed in hub 0.20.0 (old API)
@@ -240,12 +241,12 @@ For best results, install in this order:
 
 1. **PyTorch** (with CUDA)
    ```bash
-   pip install --extra-index-url https://download.pytorch.org/whl/cu121 torch torchvision torchaudio
+   pip install --extra-index-url https://download.pytorch.org/whl/cu122 torch torchvision torchaudio
    ```
 
 2. **HuggingFace** (pinned versions)
    ```bash
-   pip install huggingface_hub==0.19.4 transformers==4.36.2
+   pip install huggingface_hub==0.23.0 transformers==4.36.2
    ```
 
 3. **Computer Vision**
@@ -291,12 +292,12 @@ print(f'Pillow: {PIL.__version__}')
 
 Expected output:
 ```
-PyTorch: 2.1.2+cu121
+PyTorch: 2.1.2+cu122
 CUDA available: True
-CUDA version: 12.1
+CUDA version: 12.2
 Transformers: 4.36.2
 OpenCV: 4.8.1
-Pillow: 10.1.0
+Pillow: 10.4.0
 ```
 
 ## Alternative: Use requirements.txt
@@ -304,8 +305,8 @@ Pillow: 10.1.0
 Instead of manual installation:
 
 ```bash
-# CUDA 12.1
-pip install -r requirements-cu121.txt
+# CUDA 12.2 (recommended, matches Colab)
+pip install -r requirements-cu122.txt
 
 # CPU only
 pip install -r requirements-cpu.txt
@@ -320,8 +321,8 @@ The Dockerfile uses the same pinned versions for reproducibility:
 
 ```dockerfile
 RUN pip install --no-cache-dir \
-    --extra-index-url https://download.pytorch.org/whl/cu121 \
-    torch==2.1.2+cu121 \
+    --extra-index-url https://download.pytorch.org/whl/cu122 \
+    torch==2.1.2+cu122 \
     ...
 ```
 
@@ -338,9 +339,9 @@ If you encounter version conflicts:
 
 - **Date:** 2025-11-18
 - **Tested with:**
-  - CUDA 12.1, 12.3, 12.6
-  - Python 3.11.7
-  - Ubuntu 22.04, Windows 11
+  - CUDA 12.2 (matching Google Colab)
+  - Python 3.10.x
+  - Ubuntu 22.04, Windows 11, Google Colab
   - NVIDIA drivers 535.x, 545.x
 
 ## References

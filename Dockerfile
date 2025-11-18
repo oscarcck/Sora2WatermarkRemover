@@ -1,7 +1,7 @@
 # Sora2WatermarkRemover Docker Image
-# Based on Jupyter PyTorch notebook with CUDA 12 and Python 3.11
+# Based on Jupyter PyTorch notebook with CUDA 12 and Python 3.10
 
-FROM quay.io/jupyter/pytorch-notebook:cuda12-python-3.11
+FROM quay.io/jupyter/pytorch-notebook:cuda12-python-3.10
 
 # Switch to root to install system dependencies
 USER root
@@ -22,19 +22,19 @@ WORKDIR /home/jovyan/work
 # Copy requirements file if exists, otherwise install packages directly
 COPY --chown=jovyan:users . /home/jovyan/work/
 
-# Install Python dependencies with specific versions for CUDA 12 + Python 3.11
-# Using PyTorch CUDA 12.1 builds (compatible with CUDA 12.1-12.6)
-# Updated: Use compatible versions of huggingface_hub and iopaint
+# Install Python dependencies with specific versions for CUDA 12.2 + Python 3.10
+# Using PyTorch CUDA 12.2 builds (matches Google Colab environment)
+# Updated: Use Colab-compatible versions
 RUN pip install --no-cache-dir \
-    --extra-index-url https://download.pytorch.org/whl/cu121 \
-    torch==2.1.2+cu121 \
-    torchvision==0.16.2+cu121 \
-    torchaudio==2.1.2+cu121 \
+    --extra-index-url https://download.pytorch.org/whl/cu122 \
+    torch==2.1.2+cu122 \
+    torchvision==0.16.2+cu122 \
+    torchaudio==2.1.2+cu122 \
     huggingface_hub==0.23.0 \
     transformers==4.36.2 \
     opencv-python-headless==4.8.1.78 \
-    Pillow==10.1.0 \
-    iopaint==1.3.3 \
+    Pillow==10.4.0 \
+    iopaint==1.6.0 \
     click==8.1.7 \
     tqdm==4.66.1 \
     loguru==0.7.2 \

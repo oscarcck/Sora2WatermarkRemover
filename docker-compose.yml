@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   jupyter:
-    image: quay.io/jupyter/pytorch-notebook:cuda12-python-3.11
+    image: quay.io/jupyter/pytorch-notebook:cuda12-python-3.10
     container_name: sora2-watermark-remover
     ports:
       - "8888:8888"

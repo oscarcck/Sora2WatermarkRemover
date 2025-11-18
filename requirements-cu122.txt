@@ -1,12 +1,12 @@
-# Requirements for Sora2WatermarkRemover - CUDA 12.1 optimized
-# Tested with CUDA 12.1-12.6 and Python 3.11
-# Use this for maximum CUDA 12.x compatibility
+# Requirements for Sora2WatermarkRemover - CUDA 12.2 optimized
+# Tested with CUDA 12.2 and Python 3.10 (matching Google Colab environment)
+# Use this for maximum compatibility with Colab
 
-# PyTorch with CUDA 12.1 support
---extra-index-url https://download.pytorch.org/whl/cu121
-torch==2.1.2+cu121
-torchvision==0.16.2+cu121
-torchaudio==2.1.2+cu121
+# PyTorch with CUDA 12.2 support
+--extra-index-url https://download.pytorch.org/whl/cu122
+torch==2.1.2+cu122
+torchvision==0.16.2+cu122
+torchaudio==2.1.2+cu122
 
 # Core ML/AI libraries - Updated for full compatibility
 huggingface_hub==0.23.0
@@ -18,11 +18,11 @@ accelerate==0.25.0
 
 # Computer Vision
 opencv-python-headless==4.8.1.78
-Pillow==10.1.0
+Pillow==10.4.0
 scikit-image==0.22.0
 
-# Inpainting - Latest stable 1.3.x version
-iopaint==1.3.3
+# Inpainting - Latest stable version (matching Colab)
+iopaint==1.6.0
 
 # CLI tools
 click==8.1.7
