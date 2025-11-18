@@ -33,6 +33,13 @@ conda activate py312aiwatermark
 python remwm.py input.mp4 output.mp4
 ```
 
+**Or install manually:**
+```bash
+conda create -n py312aiwatermark python=3.12
+conda activate py312aiwatermark
+pip install -r requirements.txt
+```
+
 ### Removed watermark
 
 
