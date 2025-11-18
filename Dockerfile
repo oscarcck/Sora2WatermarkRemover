@@ -1,30 +1,44 @@
 # Sora2WatermarkRemover Docker Image
-# Based on Jupyter PyTorch notebook with CUDA 12 and Python 3.10
+# Based on NVIDIA CUDA 12.2 with Python 3.10 (matching Google Colab environment)
 
-FROM quay.io/jupyter/pytorch-notebook:cuda12-python-3.10
+FROM nvidia/cuda:12.2.0-base-ubuntu22.04
 
-# Switch to root to install system dependencies
-USER root
-
-# Install FFmpeg (required for video audio merging)
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.10 \
+    python3-pip \
+    python3.10-dev \
     ffmpeg \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    wget \
+    ca-certificates \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
-# Switch back to jovyan user for pip installations
+# Set Python 3.10 as default
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1 && \
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1 && \
+    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+
+# Create jovyan user (standard Jupyter user)
+RUN useradd -m -s /bin/bash -G users jovyan && \
+    mkdir -p /home/jovyan/work && \
+    chown -R jovyan:users /home/jovyan
+
+# Switch to jovyan user for installations
 USER jovyan
-
-# Set working directory
 WORKDIR /home/jovyan/work
 
-# Copy requirements file if exists, otherwise install packages directly
-COPY --chown=jovyan:users . /home/jovyan/work/
+# Upgrade pip
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
+# Install Jupyter
+RUN pip install --no-cache-dir \
+    jupyter==1.0.0 \
+    notebook==7.0.6 \
+    jupyterlab==4.0.9
 
 # Install Python dependencies with specific versions for CUDA 12.2 + Python 3.10
 # Using PyTorch CUDA 12.2 builds (matches Google Colab environment)
-# Updated: Use Colab-compatible versions
 RUN pip install --no-cache-dir \
     --extra-index-url https://download.pytorch.org/whl/cu122 \
     torch==2.1.2+cu122 \
@@ -45,8 +59,11 @@ RUN pip install --no-cache-dir \
     scikit-image==0.22.0 \
     yacs==0.1.8
 
-# Pre-download LaMa model (optional, can be done at runtime)
-# Uncomment the following line to pre-download the model (increases image size)
+# Copy project files
+COPY --chown=jovyan:users . /home/jovyan/work/
+
+# Pre-download LaMa model (optional, uncomment to pre-download)
+# This increases image size but speeds up first run
 # RUN iopaint download --model lama
 
 # Create input/output directories
@@ -55,5 +72,5 @@ RUN mkdir -p /home/jovyan/work/input /home/jovyan/work/output
 # Expose Jupyter port
 EXPOSE 8888
 
-# Default command (start Jupyter)
-CMD ["start-notebook.sh", "--NotebookApp.token=''", "--NotebookApp.password=''"]
+# Start Jupyter Notebook
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''", "--allow-root"]

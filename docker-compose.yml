@@ -2,7 +2,10 @@ version: '3.8'
 
 services:
   jupyter:
-    image: quay.io/jupyter/pytorch-notebook:cuda12-python-3.10
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sora2-watermark-remover:latest
     container_name: sora2-watermark-remover
     ports:
       - "8888:8888"
@@ -30,14 +33,6 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-    # Run as root initially to install system packages, then switch to jovyan
-    user: root
-    command: >
-      bash -c "
-      apt-get update && apt-get install -y ffmpeg &&
-      chown -R jovyan:users /home/jovyan/work &&
-      su jovyan -c 'start-notebook.sh --NotebookApp.token=\"\" --NotebookApp.password=\"\"'
-      "
 
 volumes:
   jupyter-config:

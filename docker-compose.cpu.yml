@@ -5,7 +5,7 @@ version: '3.8'
 
 services:
   jupyter:
-    image: quay.io/jupyter/pytorch-notebook:python-3.10
+    image: jupyter/scipy-notebook:latest
     container_name: sora2-watermark-remover-cpu
     ports:
       - "8888:8888"
@@ -22,12 +22,13 @@ services:
     environment:
       - JUPYTER_ENABLE_LAB=yes
       - GRANT_SUDO=yes
-    # Run as root to install ffmpeg
+    # Run as root to install system packages
     user: root
     command: >
       bash -c "
       apt-get update && apt-get install -y ffmpeg &&
       chown -R jovyan:users /home/jovyan/work &&
+      pip install -r /home/jovyan/work/requirements-cpu.txt &&
       su jovyan -c 'start-notebook.sh --NotebookApp.token=\"\" --NotebookApp.password=\"\"'
       "
 

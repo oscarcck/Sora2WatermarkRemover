@@ -56,19 +56,26 @@ cd Sora2WatermarkRemover
 mkdir -p input output
 ```
 
-### 3. Start Jupyter Notebook
+### 3. Build and Start Jupyter Notebook
 
 **With GPU (recommended):**
 
 ```bash
+# First time: build the custom image (may take 5-10 minutes)
+docker compose build
+
+# Start the container
 docker compose up
 ```
 
 **Without GPU (CPU-only):**
 
 ```bash
+# Uses pre-built image, no build needed
 docker compose -f docker-compose.cpu.yml up
 ```
+
+**Note**: The GPU version uses a custom Dockerfile based on NVIDIA CUDA 12.2 with Python 3.10 (matching Google Colab). The first `docker compose up` will automatically build the image if not already built.
 
 ### 4. Access Jupyter
 
@@ -172,44 +179,43 @@ For a 10-second 30fps video, expect:
 
 ## Custom Docker Build
 
-To build a custom image with pre-installed dependencies:
+The GPU version (`docker-compose.yml`) uses a custom Dockerfile by default:
 
-### Build the Image
+### About the Custom Image
 
-```bash
-docker build -t sora2-watermark-remover:latest .
-```
+- **Base**: `nvidia/cuda:12.2.0-base-ubuntu22.04`
+- **Python**: 3.10 (matching Google Colab)
+- **CUDA**: 12.2 (matching Google Colab)
+- **Pre-installed**: All dependencies including PyTorch, Florence-2, LaMa
 
-### Modify docker-compose.yml
+### Rebuild After Changes
 
-Edit `docker-compose.yml` and replace:
-
-```yaml
-image: quay.io/jupyter/pytorch-notebook:cuda12-python-3.10
-```
-
-with:
-
-```yaml
-image: sora2-watermark-remover:latest
-```
-
-### Start Container
+If you modify the Dockerfile or requirements:
 
 ```bash
-docker compose up
+# Rebuild the image
+docker compose build --no-cache
+
+# Or rebuild and start
+docker compose up --build
 ```
 
-### Advantages of Custom Build
+### Pre-download LaMa Model
 
-- ✅ Faster startup (dependencies pre-installed)
-- ✅ Consistent environment across runs
-- ✅ Can pre-download LaMa model (uncomment line in Dockerfile)
+To pre-download the LaMa model (optional, increases image size):
 
-### Disadvantages
+1. Edit `Dockerfile`
+2. Uncomment the line:
+   ```dockerfile
+   # RUN iopaint download --model lama
+   ```
+3. Rebuild: `docker compose build`
 
-- ❌ Larger image size (~5-10 GB)
-- ❌ Needs rebuild when dependencies change
+### Image Details
+
+- **Size**: ~6-8 GB (with dependencies)
+- **Build time**: 5-10 minutes (first time)
+- **Advantages**: Faster startup, consistent environment, exact version control
 
 ---
 
