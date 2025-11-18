@@ -6,12 +6,12 @@ torch==2.1.2
 torchvision==0.16.2
 torchaudio==2.1.2
 
-# Core ML/AI libraries - Updated to fix dependency conflicts
-huggingface_hub==0.20.3
+# Core ML/AI libraries - Updated for full compatibility
+huggingface_hub==0.23.0
 transformers==4.36.2
 tokenizers==0.15.0
 safetensors==0.4.1
-diffusers==0.24.0
+diffusers==0.27.0
 accelerate==0.25.0
 
 # Computer Vision
@@ -19,7 +19,7 @@ opencv-python-headless==4.8.1.78
 Pillow==10.1.0
 scikit-image==0.22.0
 
-# Inpainting - Latest stable 1.3.x version compatible with huggingface_hub 0.20+
+# Inpainting - Latest stable 1.3.x version
 iopaint==1.3.3
 
 # CLI tools

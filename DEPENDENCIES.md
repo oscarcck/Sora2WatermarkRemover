@@ -40,19 +40,19 @@ torchaudio==2.1.2+cu121
 ### HuggingFace Libraries
 
 ```
-huggingface_hub==0.20.3
+huggingface_hub==0.23.0
 transformers==4.36.2
 tokenizers==0.15.0
 safetensors==0.4.1
 ```
 
 **Why these versions:**
-- `huggingface_hub==0.20.3`: Required by iopaint 1.3.5+, compatible version
+- `huggingface_hub==0.23.0`: Has all required functions (split_torch_state_dict_into_shards, etc.)
 - `transformers==4.36.2`: Stable, compatible with Florence-2
 - `tokenizers==0.15.0`: Matches transformers version
 - `safetensors==0.4.1`: Stable, secure model loading
 
-**Note:** Newer iopaint versions (1.3.5+) require `huggingface_hub>=0.20.0` and have fixed the `cached_download` deprecation issue.
+**Note:** huggingface_hub 0.23.0 includes all modern APIs needed by diffusers and iopaint.
 
 ### Computer Vision
 
@@ -71,20 +71,21 @@ scikit-image==0.22.0
 
 ```
 iopaint==1.3.3
-diffusers==0.24.0
+diffusers==0.27.0
 accelerate==0.25.0
 ```
 
 **Why these versions:**
-- `iopaint==1.3.3`: Latest stable 1.3.x with LaMa support, compatible with huggingface_hub 0.20.3
-- `diffusers==0.24.0`: Required by iopaint
+- `iopaint==1.3.3`: Latest stable 1.3.x with LaMa support
+- `diffusers==0.27.0`: Stable, compatible with huggingface_hub 0.23.0
 - `accelerate==0.25.0`: GPU optimization, required by iopaint
 
 **Version history:**
 - iopaint 1.0.x-1.2.x: Required huggingface_hub<0.20.0 (deprecated cached_download)
-- iopaint 1.3.x (1.3.0-1.3.3): Transitioned to work with huggingface_hub>=0.20.0
-- iopaint 1.4.x+: Requires huggingface_hub>=0.20.0, may have breaking changes
-- **1.3.3 is the most stable** version that works with modern dependencies
+- iopaint 1.3.x (1.3.0-1.3.3): Works with huggingface_hub>=0.20.0
+- diffusers 0.24.0: Needs split_torch_state_dict_into_shards (not in hub 0.20.3)
+- diffusers 0.27.0: Works properly with huggingface_hub 0.23.0
+- **Current combination is fully compatible** with all required APIs
 
 ### CLI and Utilities
 
@@ -163,22 +164,21 @@ psutil==5.9.6
 
 ## Known Issues and Workarounds
 
-### Issue 1: Dependency conflict between iopaint and huggingface_hub
+### Issue 1: Missing function errors from huggingface_hub
 
-**Problem:** `ERROR: Cannot install huggingface_hub<0.20.0 and iopaint==1.4.4+`
+**Problem:** `ImportError: cannot import name 'split_torch_state_dict_into_shards'`
 
-**Root cause:** Newer iopaint versions (1.4.4+) require huggingface_hub>=0.20.0, creating a conflict
+**Root cause:** Version mismatch - diffusers needs functions not available in older huggingface_hub
 
 **Solution:** Use compatible versions:
-- `huggingface_hub==0.20.3` (works with newer iopaint)
-- `iopaint==1.3.3` (latest stable 1.3.x, works with huggingface_hub 0.20.3)
+- `huggingface_hub==0.23.0` (has all required functions)
+- `diffusers==0.27.0` (compatible with hub 0.23.0)
+- `iopaint==1.3.3` (works with hub 0.23.0)
 
-**History:**
-- Old approach (pre-fix): huggingface_hub==0.19.4 + iopaint==1.2.2
-  - Problem: iopaint 1.2.2 used deprecated `cached_download()`
-- Current approach: huggingface_hub==0.20.3 + iopaint==1.3.3
-  - Fixed: iopaint 1.3.3 no longer uses deprecated API
-  - Note: 1.3.3 is the latest in stable 1.3.x series (no 1.3.4 or 1.3.5 exists)
+**Function availability:**
+- `cached_download()`: Removed in hub 0.20.0 (old API)
+- `split_torch_state_dict_into_shards()`: Added in hub 0.21.0+
+- Solution: Use hub 0.23.0 which has all modern functions
 
 ### Issue 2: PyTorch CUDA version mismatch
 

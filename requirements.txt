@@ -8,8 +8,8 @@ torch==2.1.2+cu121
 torchvision==0.16.2+cu121
 torchaudio==2.1.2+cu121
 
-# HuggingFace - Use newer versions compatible with latest iopaint
-huggingface_hub==0.20.3
+# HuggingFace - Updated for full compatibility with diffusers
+huggingface_hub==0.23.0
 transformers==4.36.2
 tokenizers==0.15.0
 safetensors==0.4.1
@@ -42,7 +42,7 @@ PyYAML==6.0.1
 psutil==5.9.6
 
 # Additional dependencies required by iopaint
-diffusers==0.24.0
+diffusers==0.27.0
 accelerate==0.25.0
 omegaconf==2.3.0
 scikit-image==0.22.0

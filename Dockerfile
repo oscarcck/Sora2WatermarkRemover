@@ -30,7 +30,7 @@ RUN pip install --no-cache-dir \
     torch==2.1.2+cu121 \
     torchvision==0.16.2+cu121 \
     torchaudio==2.1.2+cu121 \
-    huggingface_hub==0.20.3 \
+    huggingface_hub==0.23.0 \
     transformers==4.36.2 \
     opencv-python-headless==4.8.1.78 \
     Pillow==10.1.0 \
@@ -39,7 +39,7 @@ RUN pip install --no-cache-dir \
     tqdm==4.66.1 \
     loguru==0.7.2 \
     ipywidgets==8.1.1 \
-    diffusers==0.24.0 \
+    diffusers==0.27.0 \
     accelerate==0.25.0 \
     omegaconf==2.3.0 \
     scikit-image==0.22.0 \
