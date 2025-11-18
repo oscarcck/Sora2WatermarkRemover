@@ -1,0 +1,17 @@
+# Requirements for Sora2WatermarkRemover
+# Pin huggingface_hub to version compatible with iopaint (cached_download removal issue)
+huggingface_hub<0.20.0
+transformers
+torch
+torchvision
+torchaudio
+opencv-python-headless
+tqdm
+loguru
+iopaint
+click
+pillow
+ipywidgets
+PyYAML
+psutil
+PyQt6

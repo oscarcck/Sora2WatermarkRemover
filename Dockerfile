@@ -23,14 +23,17 @@ WORKDIR /home/jovyan/work
 COPY --chown=jovyan:users . /home/jovyan/work/
 
 # Install Python dependencies
+# Pin huggingface_hub to version compatible with iopaint
 RUN pip install --no-cache-dir \
+    'huggingface_hub<0.20.0' \
     transformers \
     opencv-python-headless \
     tqdm \
     loguru \
     iopaint \
     click \
-    pillow
+    pillow \
+    ipywidgets
 
 # Pre-download LaMa model (optional, can be done at runtime)
 # Uncomment the following line to pre-download the model (increases image size)

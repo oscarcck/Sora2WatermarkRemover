@@ -376,6 +376,38 @@ sudo apt-get update && sudo apt-get install -y ffmpeg
 
 ---
 
+### Issue: "cannot import name 'cached_download' from 'huggingface_hub'"
+
+**Symptoms**:
+```
+ImportError: cannot import name 'cached_download' from 'huggingface_hub'
+```
+
+**Cause**: Newer versions of `huggingface_hub` (≥0.20.0) removed the deprecated `cached_download` function that some dependencies still use.
+
+**Solution**: This is already fixed in the notebook and Dockerfile:
+
+```python
+# Notebook installs compatible version
+!pip install -q 'huggingface_hub<0.20.0' ...
+```
+
+If you still encounter this:
+
+```bash
+# Inside container or notebook
+pip uninstall -y huggingface_hub
+pip install 'huggingface_hub<0.20.0'
+```
+
+Or use the provided `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
 ### Issue: Slow processing on GPU
 
 **Verify CUDA is being used**:
