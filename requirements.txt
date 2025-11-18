@@ -8,8 +8,8 @@ torch==2.1.2+cu121
 torchvision==0.16.2+cu121
 torchaudio==2.1.2+cu121
 
-# HuggingFace - pinned for iopaint compatibility (cached_download issue)
-huggingface_hub==0.19.4
+# HuggingFace - Use newer versions compatible with latest iopaint
+huggingface_hub==0.20.3
 transformers==4.36.2
 tokenizers==0.15.0
 safetensors==0.4.1
@@ -18,8 +18,8 @@ safetensors==0.4.1
 opencv-python-headless==4.8.1.78
 Pillow==10.1.0
 
-# Inpainting
-iopaint==1.2.2
+# Inpainting - Use latest stable version
+iopaint==1.3.5
 
 # CLI and utilities
 click==8.1.7

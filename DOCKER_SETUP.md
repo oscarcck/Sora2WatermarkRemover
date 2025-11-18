@@ -376,28 +376,28 @@ sudo apt-get update && sudo apt-get install -y ffmpeg
 
 ---
 
-### Issue: "cannot import name 'cached_download' from 'huggingface_hub'"
+### Issue: Dependency conflict between iopaint and huggingface_hub
 
 **Symptoms**:
 ```
-ImportError: cannot import name 'cached_download' from 'huggingface_hub'
+ERROR: Cannot install huggingface_hub<0.20.0 and iopaint==1.4.4+
 ```
 
-**Cause**: Newer versions of `huggingface_hub` (≥0.20.0) removed the deprecated `cached_download` function that some dependencies still use.
+**Cause**: Version mismatch - newer iopaint requires huggingface_hub>=0.20.0
 
-**Solution**: This is already fixed in the notebook and Dockerfile:
+**Solution**: This is already fixed in requirements files:
 
 ```python
-# Notebook installs compatible version
-!pip install -q 'huggingface_hub<0.20.0' ...
+# Requirements use compatible versions
+huggingface_hub==0.20.3
+iopaint==1.3.5
 ```
 
-If you still encounter this:
+If you encounter this error:
 
 ```bash
-# Inside container or notebook
-pip uninstall -y huggingface_hub
-pip install 'huggingface_hub<0.20.0'
+# Use the provided requirements files
+pip install -r requirements-cu121.txt
 ```
 
 Or use the provided requirements files:

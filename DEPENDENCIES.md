@@ -40,19 +40,19 @@ torchaudio==2.1.2+cu121
 ### HuggingFace Libraries
 
 ```
-huggingface_hub==0.19.4
+huggingface_hub==0.20.3
 transformers==4.36.2
 tokenizers==0.15.0
 safetensors==0.4.1
 ```
 
 **Why these versions:**
-- `huggingface_hub==0.19.4`: Last version with `cached_download()` (needed by iopaint)
+- `huggingface_hub==0.20.3`: Required by iopaint 1.3.5+, compatible version
 - `transformers==4.36.2`: Stable, compatible with Florence-2
 - `tokenizers==0.15.0`: Matches transformers version
 - `safetensors==0.4.1`: Stable, secure model loading
 
-**Critical:** Do NOT upgrade `huggingface_hub` beyond 0.19.x - breaks iopaint!
+**Note:** Newer iopaint versions (1.3.5+) require `huggingface_hub>=0.20.0` and have fixed the `cached_download` deprecation issue.
 
 ### Computer Vision
 
@@ -70,15 +70,20 @@ scikit-image==0.22.0
 ### Inpainting
 
 ```
-iopaint==1.2.2
+iopaint==1.3.5
 diffusers==0.24.0
 accelerate==0.25.0
 ```
 
 **Why these versions:**
-- `iopaint==1.2.2`: Latest stable with LaMa model support
+- `iopaint==1.3.5`: Stable version with LaMa support, compatible with huggingface_hub 0.20.3
 - `diffusers==0.24.0`: Required by iopaint
 - `accelerate==0.25.0`: GPU optimization, required by iopaint
+
+**Version history:**
+- iopaint 1.0.x-1.2.x: Required huggingface_hub<0.20.0 (deprecated cached_download)
+- iopaint 1.3.x+: Fixed to work with huggingface_hub>=0.20.0
+- iopaint 1.4.x+: May have additional breaking changes, 1.3.5 is most stable
 
 ### CLI and Utilities
 
@@ -157,13 +162,21 @@ psutil==5.9.6
 
 ## Known Issues and Workarounds
 
-### Issue 1: huggingface_hub >= 0.20.0
+### Issue 1: Dependency conflict between iopaint and huggingface_hub
 
-**Problem:** `ImportError: cannot import name 'cached_download'`
+**Problem:** `ERROR: Cannot install huggingface_hub<0.20.0 and iopaint==1.4.4+`
 
-**Solution:** Pin to `huggingface_hub==0.19.4`
+**Root cause:** Newer iopaint versions (1.4.4+) require huggingface_hub>=0.20.0, creating a conflict
 
-**Why:** iopaint still uses deprecated `cached_download()` API
+**Solution:** Use compatible versions:
+- `huggingface_hub==0.20.3` (works with newer iopaint)
+- `iopaint==1.3.5` (stable, works with huggingface_hub 0.20.3)
+
+**History:**
+- Old approach (pre-fix): huggingface_hub==0.19.4 + iopaint==1.2.2
+  - Problem: iopaint 1.2.2 used deprecated `cached_download()`
+- Current approach: huggingface_hub==0.20.3 + iopaint==1.3.5
+  - Fixed: iopaint 1.3.5 no longer uses deprecated API
 
 ### Issue 2: PyTorch CUDA version mismatch
 
@@ -197,8 +210,8 @@ export HF_ENDPOINT=https://hf-mirror.com
 - `torch`/`torchvision` (CUDA compatibility)
 - `iopaint` (may change API)
 
-### DO NOT upgrade:
-- `huggingface_hub` beyond 0.19.x (breaks iopaint)
+### Upgrade together:
+- `huggingface_hub` and `iopaint` should be upgraded together (they have tight dependency coupling)
 
 ## Testing New Versions
 
