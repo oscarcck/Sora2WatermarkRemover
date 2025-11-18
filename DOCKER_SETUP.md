@@ -390,7 +390,7 @@ ERROR: Cannot install huggingface_hub<0.20.0 and iopaint==1.4.4+
 ```python
 # Requirements use compatible versions
 huggingface_hub==0.20.3
-iopaint==1.3.5
+iopaint==1.3.3  # Latest stable 1.3.x
 ```
 
 If you encounter this error:
