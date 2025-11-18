@@ -70,20 +70,21 @@ scikit-image==0.22.0
 ### Inpainting
 
 ```
-iopaint==1.3.5
+iopaint==1.3.3
 diffusers==0.24.0
 accelerate==0.25.0
 ```
 
 **Why these versions:**
-- `iopaint==1.3.5`: Stable version with LaMa support, compatible with huggingface_hub 0.20.3
+- `iopaint==1.3.3`: Latest stable 1.3.x with LaMa support, compatible with huggingface_hub 0.20.3
 - `diffusers==0.24.0`: Required by iopaint
 - `accelerate==0.25.0`: GPU optimization, required by iopaint
 
 **Version history:**
 - iopaint 1.0.x-1.2.x: Required huggingface_hub<0.20.0 (deprecated cached_download)
-- iopaint 1.3.x+: Fixed to work with huggingface_hub>=0.20.0
-- iopaint 1.4.x+: May have additional breaking changes, 1.3.5 is most stable
+- iopaint 1.3.x (1.3.0-1.3.3): Transitioned to work with huggingface_hub>=0.20.0
+- iopaint 1.4.x+: Requires huggingface_hub>=0.20.0, may have breaking changes
+- **1.3.3 is the most stable** version that works with modern dependencies
 
 ### CLI and Utilities
 
@@ -170,13 +171,14 @@ psutil==5.9.6
 
 **Solution:** Use compatible versions:
 - `huggingface_hub==0.20.3` (works with newer iopaint)
-- `iopaint==1.3.5` (stable, works with huggingface_hub 0.20.3)
+- `iopaint==1.3.3` (latest stable 1.3.x, works with huggingface_hub 0.20.3)
 
 **History:**
 - Old approach (pre-fix): huggingface_hub==0.19.4 + iopaint==1.2.2
   - Problem: iopaint 1.2.2 used deprecated `cached_download()`
-- Current approach: huggingface_hub==0.20.3 + iopaint==1.3.5
-  - Fixed: iopaint 1.3.5 no longer uses deprecated API
+- Current approach: huggingface_hub==0.20.3 + iopaint==1.3.3
+  - Fixed: iopaint 1.3.3 no longer uses deprecated API
+  - Note: 1.3.3 is the latest in stable 1.3.x series (no 1.3.4 or 1.3.5 exists)
 
 ### Issue 2: PyTorch CUDA version mismatch
 

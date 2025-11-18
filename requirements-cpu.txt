@@ -19,8 +19,8 @@ opencv-python-headless==4.8.1.78
 Pillow==10.1.0
 scikit-image==0.22.0
 
-# Inpainting - Use version compatible with huggingface_hub 0.20+
-iopaint==1.3.5
+# Inpainting - Latest stable 1.3.x version compatible with huggingface_hub 0.20+
+iopaint==1.3.3
 
 # CLI tools
 click==8.1.7

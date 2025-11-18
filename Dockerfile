@@ -34,7 +34,7 @@ RUN pip install --no-cache-dir \
     transformers==4.36.2 \
     opencv-python-headless==4.8.1.78 \
     Pillow==10.1.0 \
-    iopaint==1.3.5 \
+    iopaint==1.3.3 \
     click==8.1.7 \
     tqdm==4.66.1 \
     loguru==0.7.2 \
