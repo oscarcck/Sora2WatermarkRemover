@@ -54,7 +54,7 @@ RUN pip install --no-cache-dir \
     tqdm==4.66.1 \
     loguru==0.7.2 \
     ipywidgets==8.1.1 \
-    diffusers==0.27.0 \
+    diffusers==0.27.2 \
     accelerate==0.25.0 \
     omegaconf==2.3.0 \
     scikit-image==0.22.0 \

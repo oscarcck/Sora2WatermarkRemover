@@ -76,20 +76,20 @@ scikit-image==0.22.0
 
 ```
 iopaint==1.6.0
-diffusers==0.27.0
+diffusers==0.27.2
 accelerate==0.25.0
 ```
 
 **Why these versions:**
 - `iopaint==1.6.0`: Latest stable release (matching Google Colab usage)
-- `diffusers==0.27.0`: Stable, compatible with huggingface_hub 0.23.0
+- `diffusers==0.27.2`: Required by iopaint 1.6.0 (exact version dependency)
 - `accelerate==0.25.0`: GPU optimization, required by iopaint
 
 **Version history:**
 - iopaint 1.0.x-1.2.x: Required huggingface_hub<0.20.0 (deprecated cached_download)
 - iopaint 1.3.x (1.3.0-1.3.3): Works with huggingface_hub>=0.20.0
 - iopaint 1.4.x-1.6.x: Latest versions with improved features
-- diffusers 0.27.0: Works properly with huggingface_hub 0.23.0
+- iopaint 1.6.0 specifically requires diffusers==0.27.2 (not 0.27.0)
 - **Current combination is fully compatible** with all required APIs and matches Colab environment
 
 ### CLI and Utilities
@@ -179,7 +179,7 @@ psutil==5.9.6
 
 **Solution:** Use compatible versions:
 - `huggingface_hub==0.23.0` (has all required functions)
-- `diffusers==0.27.0` (compatible with hub 0.23.0)
+- `diffusers==0.27.2` (required by iopaint 1.6.0)
 - `iopaint==1.6.0` (latest stable, works with hub 0.23.0)
 
 **Function availability:**

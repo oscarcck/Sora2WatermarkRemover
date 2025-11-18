@@ -43,7 +43,7 @@ PyYAML==6.0.1
 psutil==5.9.6
 
 # Additional dependencies required by iopaint
-diffusers==0.27.0
+diffusers==0.27.2
 accelerate==0.25.0
 omegaconf==2.3.0
 scikit-image==0.22.0

@@ -397,7 +397,7 @@ ERROR: Cannot install huggingface_hub<0.20.0 and iopaint==1.4.4+
 # Requirements use compatible versions (matching Colab)
 huggingface_hub==0.23.0
 iopaint==1.6.0  # Latest stable version
-diffusers==0.27.0
+diffusers==0.27.2  # Required by iopaint 1.6.0
 ```
 
 If you encounter this error:
