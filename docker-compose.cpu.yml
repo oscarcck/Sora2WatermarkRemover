@@ -1,0 +1,36 @@
+version: '3.8'
+
+# CPU-only version (no GPU required)
+# Use this if you don't have an NVIDIA GPU or CUDA support
+
+services:
+  jupyter:
+    image: quay.io/jupyter/pytorch-notebook:python-3.11
+    container_name: sora2-watermark-remover-cpu
+    ports:
+      - "8888:8888"
+    volumes:
+      # Mount the entire project directory
+      - .:/home/jovyan/work
+      # Mount input/output directories
+      - ./input:/home/jovyan/work/input
+      - ./output:/home/jovyan/work/output
+      # Persist Jupyter configuration
+      - jupyter-config:/home/jovyan/.jupyter
+      # Persist model cache
+      - model-cache:/home/jovyan/.cache
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - GRANT_SUDO=yes
+    # Run as root to install ffmpeg
+    user: root
+    command: >
+      bash -c "
+      apt-get update && apt-get install -y ffmpeg &&
+      chown -R jovyan:users /home/jovyan/work &&
+      su jovyan -c 'start-notebook.sh --NotebookApp.token=\"\" --NotebookApp.password=\"\"'
+      "
+
+volumes:
+  jupyter-config:
+  model-cache:

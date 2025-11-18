@@ -1,0 +1,59 @@
+# Git
+.git
+.gitignore
+.github
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb_checkpoints
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Input/Output (don't copy to image, will be mounted)
+input/
+output/
+
+# Model cache (will be in volume)
+.cache/
+*.pth
+*.pt
+
+# Documentation
+*.md
+!README.md
+
+# Conda environment
+py312aiwatermark/
+environment.yml
+
+# Setup scripts (not needed in container)
+setup.sh
+setup.ps1
+install_windows.ps1
+install_windows.bat
+create_shortcut.ps1
+
+# GUI (not used in Docker)
+ui.yml
