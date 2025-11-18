@@ -1,17 +1,49 @@
 # Requirements for Sora2WatermarkRemover
-# Pin huggingface_hub to version compatible with iopaint (cached_download removal issue)
-huggingface_hub<0.20.0
-transformers
-torch
-torchvision
-torchaudio
-opencv-python-headless
-tqdm
-loguru
-iopaint
-click
-pillow
-ipywidgets
-PyYAML
-psutil
-PyQt6
+# Tested with CUDA 12.1+ and Python 3.11
+# Last updated: 2025-11-18
+
+# PyTorch ecosystem (CUDA 12.1 compatible)
+--extra-index-url https://download.pytorch.org/whl/cu121
+torch==2.1.2+cu121
+torchvision==0.16.2+cu121
+torchaudio==2.1.2+cu121
+
+# HuggingFace - pinned for iopaint compatibility (cached_download issue)
+huggingface_hub==0.19.4
+transformers==4.36.2
+tokenizers==0.15.0
+safetensors==0.4.1
+
+# Computer Vision
+opencv-python-headless==4.8.1.78
+Pillow==10.1.0
+
+# Inpainting
+iopaint==1.2.2
+
+# CLI and utilities
+click==8.1.7
+tqdm==4.66.1
+loguru==0.7.2
+
+# GUI dependencies
+PyQt6==6.6.1
+PyQt6-Qt6==6.6.1
+PyQt6-sip==13.6.0
+
+# Jupyter notebook
+ipywidgets==8.1.1
+ipykernel==6.27.1
+
+# Configuration
+PyYAML==6.0.1
+
+# System monitoring
+psutil==5.9.6
+
+# Additional dependencies required by iopaint
+diffusers==0.24.0
+accelerate==0.25.0
+omegaconf==2.3.0
+scikit-image==0.22.0
+yacs==0.1.8

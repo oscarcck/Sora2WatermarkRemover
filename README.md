@@ -33,12 +33,20 @@ conda activate py312aiwatermark
 python remwm.py input.mp4 output.mp4
 ```
 
-**Or install manually:**
+**Or install manually with pip:**
 ```bash
-conda create -n py312aiwatermark python=3.12
+# Create environment
+conda create -n py312aiwatermark python=3.11
 conda activate py312aiwatermark
-pip install -r requirements.txt
+
+# Install with CUDA 12.1 support (recommended)
+pip install -r requirements-cu121.txt
+
+# Or CPU-only version
+pip install -r requirements-cpu.txt
 ```
+
+See [DEPENDENCIES.md](DEPENDENCIES.md) for version details.
 
 ### Removed watermark
 

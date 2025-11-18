@@ -400,11 +400,17 @@ pip uninstall -y huggingface_hub
 pip install 'huggingface_hub<0.20.0'
 ```
 
-Or use the provided `requirements.txt`:
+Or use the provided requirements files:
 
 ```bash
-pip install -r requirements.txt
+# CUDA 12.1 (recommended)
+pip install -r requirements-cu121.txt
+
+# CPU only
+pip install -r requirements-cpu.txt
 ```
+
+See [DEPENDENCIES.md](DEPENDENCIES.md) for detailed version information.
 
 ---
 
