@@ -45,19 +45,19 @@ torchaudio==2.1.2+cu121
 ### HuggingFace Libraries
 
 ```
-huggingface_hub==0.23.0
+huggingface_hub==0.25.2
 transformers==4.36.2
 tokenizers==0.15.0
 safetensors==0.4.1
 ```
 
 **Why these versions:**
-- `huggingface_hub==0.23.0`: Has all required functions (split_torch_state_dict_into_shards, etc.)
-- `transformers==4.36.2`: Stable, compatible with Florence-2
+- `huggingface_hub==0.25.2`: Required by iopaint 1.6.0 (exact version dependency)
+- `transformers==4.36.2`: Stable, compatible with Florence-2 and hub 0.25.2
 - `tokenizers==0.15.0`: Matches transformers version
 - `safetensors==0.4.1`: Stable, secure model loading
 
-**Note:** huggingface_hub 0.23.0 includes all modern APIs needed by diffusers and iopaint.
+**Note:** iopaint 1.6.0 requires exactly huggingface_hub==0.25.2 (not 0.23.0 or other versions).
 
 ### Computer Vision
 
@@ -178,9 +178,9 @@ psutil==5.9.6
 **Root cause:** Version mismatch - diffusers needs functions not available in older huggingface_hub
 
 **Solution:** Use compatible versions:
-- `huggingface_hub==0.23.0` (has all required functions)
+- `huggingface_hub==0.25.2` (required by iopaint 1.6.0)
 - `diffusers==0.27.2` (required by iopaint 1.6.0)
-- `iopaint==1.6.0` (latest stable, works with hub 0.23.0)
+- `iopaint==1.6.0` (latest stable)
 
 **Function availability:**
 - `cached_download()`: Removed in hub 0.20.0 (old API)
@@ -252,7 +252,7 @@ For best results, install in this order:
 
 2. **HuggingFace** (pinned versions)
    ```bash
-   pip install huggingface_hub==0.23.0 transformers==4.36.2
+   pip install huggingface_hub==0.25.2 transformers==4.36.2
    ```
 
 3. **Computer Vision**

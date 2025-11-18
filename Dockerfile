@@ -45,7 +45,7 @@ RUN pip install --no-cache-dir \
     torch==2.1.2+cu121 \
     torchvision==0.16.2+cu121 \
     torchaudio==2.1.2+cu121 \
-    huggingface_hub==0.23.0 \
+    huggingface_hub==0.25.2 \
     transformers==4.36.2 \
     opencv-python-headless==4.8.1.78 \
     Pillow==10.4.0 \
