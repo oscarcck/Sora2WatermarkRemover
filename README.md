@@ -39,8 +39,8 @@ python remwm.py input.mp4 output.mp4
 conda create -n py312aiwatermark python=3.10
 conda activate py312aiwatermark
 
-# Install with CUDA 12.2 support (recommended, matches Colab)
-pip install -r requirements-cu122.txt
+# Install with CUDA 12+ support (recommended, matches Colab)
+pip install -r requirements-cu121.txt
 
 # Or CPU-only version
 pip install -r requirements-cpu.txt

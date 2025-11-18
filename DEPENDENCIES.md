@@ -15,28 +15,32 @@ All versions are pinned for:
 
 | File | Use Case | Installation |
 |------|----------|-------------|
-| `requirements.txt` | Standard CUDA 12.2 | `pip install -r requirements.txt` |
-| `requirements-cu122.txt` | Full CUDA 12.2 with all extras (Colab-compatible) | `pip install -r requirements-cu122.txt` |
+| `requirements.txt` | Standard CUDA 12+ | `pip install -r requirements.txt` |
+| `requirements-cu121.txt` | Full CUDA 12+ with all extras (Colab-compatible) | `pip install -r requirements-cu121.txt` |
 | `requirements-cpu.txt` | CPU-only (no GPU) | `pip install -r requirements-cpu.txt` |
+
+**Note**: We use PyTorch `cu121` builds which are compatible with CUDA 12.1-12.6 runtime. PyTorch doesn't provide `cu122` builds specifically.
 
 ## Core Dependencies
 
 ### PyTorch Ecosystem
 
 ```
-torch==2.1.2+cu122
-torchvision==0.16.2+cu122
-torchaudio==2.1.2+cu122
+torch==2.1.2+cu121
+torchvision==0.16.2+cu121
+torchaudio==2.1.2+cu121
 ```
 
 **Why these versions:**
 - PyTorch 2.1.2 is stable and well-tested
-- `+cu122` suffix indicates CUDA 12.2 builds (matching Google Colab)
-- Compatible with CUDA 12.2 and higher
+- `+cu121` suffix indicates CUDA 12.1 builds
+- **Compatible with CUDA 12.1, 12.2, 12.3, 12.4, 12.5, 12.6 runtime**
 - Python 3.10 fully supported
 - Good performance on modern GPUs (RTX 30/40 series)
 
-**Installation note:** Requires `--extra-index-url https://download.pytorch.org/whl/cu122`
+**Important:** PyTorch doesn't provide `cu122` builds. The `cu121` builds work perfectly with CUDA 12.2+ runtime (used in Google Colab).
+
+**Installation note:** Requires `--extra-index-url https://download.pytorch.org/whl/cu121`
 
 ### HuggingFace Libraries
 
@@ -144,15 +148,17 @@ psutil==5.9.6
 
 ## CUDA Compatibility Matrix
 
-| CUDA Version | PyTorch Build | Status | Notes |
+| CUDA Runtime | PyTorch Build | Status | Notes |
 |--------------|---------------|--------|-------|
-| 12.2 | +cu122 | ✅ Recommended | Matches Google Colab |
-| 12.3 | +cu122 | ✅ Compatible | Use cu122 builds |
-| 12.4 | +cu122 | ✅ Compatible | Use cu122 builds |
-| 12.5 | +cu122 | ✅ Compatible | Use cu122 builds |
-| 12.6 | +cu122 | ✅ Compatible | Use cu122 builds |
-| 12.1 | +cu121 | ✅ Compatible | Use cu121 builds (older) |
+| 12.2 | +cu121 | ✅ Recommended | Google Colab uses this combination |
+| 12.3 | +cu121 | ✅ Compatible | Use cu121 builds |
+| 12.4 | +cu121 | ✅ Compatible | Use cu121 builds |
+| 12.5 | +cu121 | ✅ Compatible | Use cu121 builds |
+| 12.6 | +cu121 | ✅ Compatible | Use cu121 builds |
+| 12.1 | +cu121 | ✅ Compatible | Exact match |
 | 11.8 | +cu118 | ⚠️ Not recommended | Use CUDA 12 instead |
+
+**Important Note:** PyTorch build version (e.g., `cu121`) doesn't need to exactly match your CUDA runtime version. PyTorch `cu121` builds work with all CUDA 12.x runtimes (12.1-12.6).
 
 ## Python Compatibility
 
@@ -241,7 +247,7 @@ For best results, install in this order:
 
 1. **PyTorch** (with CUDA)
    ```bash
-   pip install --extra-index-url https://download.pytorch.org/whl/cu122 torch torchvision torchaudio
+   pip install --extra-index-url https://download.pytorch.org/whl/cu121 torch torchvision torchaudio
    ```
 
 2. **HuggingFace** (pinned versions)
@@ -292,9 +298,9 @@ print(f'Pillow: {PIL.__version__}')
 
 Expected output:
 ```
-PyTorch: 2.1.2+cu122
+PyTorch: 2.1.2+cu121
 CUDA available: True
-CUDA version: 12.2
+CUDA version: 12.1  (or 12.2, 12.3, etc. depending on your runtime)
 Transformers: 4.36.2
 OpenCV: 4.8.1
 Pillow: 10.4.0
@@ -305,8 +311,8 @@ Pillow: 10.4.0
 Instead of manual installation:
 
 ```bash
-# CUDA 12.2 (recommended, matches Colab)
-pip install -r requirements-cu122.txt
+# CUDA 12+ (recommended, matches Colab setup)
+pip install -r requirements-cu121.txt
 
 # CPU only
 pip install -r requirements-cpu.txt
@@ -321,10 +327,12 @@ The Dockerfile uses the same pinned versions for reproducibility:
 
 ```dockerfile
 RUN pip install --no-cache-dir \
-    --extra-index-url https://download.pytorch.org/whl/cu122 \
-    torch==2.1.2+cu122 \
+    --extra-index-url https://download.pytorch.org/whl/cu121 \
+    torch==2.1.2+cu121 \
     ...
 ```
+
+**Note:** Docker uses NVIDIA CUDA 12.2 base image with PyTorch cu121 builds - this combination matches Google Colab's environment.
 
 ## Support
 

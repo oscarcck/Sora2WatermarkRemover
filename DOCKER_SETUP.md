@@ -404,18 +404,20 @@ If you encounter this error:
 
 ```bash
 # Use the provided requirements files
-pip install -r requirements-cu122.txt
+pip install -r requirements-cu121.txt
 ```
 
 Or use the provided requirements files:
 
 ```bash
-# CUDA 12.2 (recommended, matches Colab)
-pip install -r requirements-cu122.txt
+# CUDA 12+ (recommended, matches Colab)
+pip install -r requirements-cu121.txt
 
 # CPU only
 pip install -r requirements-cpu.txt
 ```
+
+**Note:** We use PyTorch cu121 builds which work with CUDA 12.1-12.6 runtime. PyTorch doesn't provide cu122 builds specifically.
 
 See [DEPENDENCIES.md](DEPENDENCIES.md) for detailed version information.
 

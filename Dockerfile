@@ -38,12 +38,13 @@ RUN pip install --no-cache-dir \
     jupyterlab==4.0.9
 
 # Install Python dependencies with specific versions for CUDA 12.2 + Python 3.10
-# Using PyTorch CUDA 12.2 builds (matches Google Colab environment)
+# Note: Using PyTorch cu121 builds (CUDA 12.1) which are compatible with CUDA 12.2 runtime
+# PyTorch doesn't provide cu122 builds - cu121 works with CUDA 12.1-12.6
 RUN pip install --no-cache-dir \
-    --extra-index-url https://download.pytorch.org/whl/cu122 \
-    torch==2.1.2+cu122 \
-    torchvision==0.16.2+cu122 \
-    torchaudio==2.1.2+cu122 \
+    --extra-index-url https://download.pytorch.org/whl/cu121 \
+    torch==2.1.2+cu121 \
+    torchvision==0.16.2+cu121 \
+    torchaudio==2.1.2+cu121 \
     huggingface_hub==0.23.0 \
     transformers==4.36.2 \
     opencv-python-headless==4.8.1.78 \
